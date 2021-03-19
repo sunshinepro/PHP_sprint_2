@@ -1,0 +1,31 @@
+header {
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color:black;
+  font-size: 18px;
+}
+
+table {
+    width:100%;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-collapse: collapse;
+    
+}
+th, td {
+    padding: 5px;
+    border: 1px solid black;
+    font-size: 18px;
+     }
+
+th{
+    background-color: rgb(201, 230, 201);
+  }
+
+tr:nth-child(even) {
+    background-color: linen;
+ }
+tr:nth-child(odd) {
+    background-color: #fff;
+  }
+button {
+  float: left ;
+}
