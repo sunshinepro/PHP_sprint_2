@@ -30,10 +30,12 @@ else echo "Connected successfully";
 
 
 $sql_p = "SELECT id_projects, p_name FROM projects";
+var_dump('$sql_p:' . $sql_p);
+
 
 $result_p = mysqli_query($conn_p, $sql_p);
 
-var_dump($result_p);
+// var_dump( '$result_p:' . $result_p);
 
 print "<table >
 
@@ -51,13 +53,10 @@ while($row_p = mysqli_fetch_array($result_p))
     print( '<tr>
      <td>' . $c .'</td>
      <td>' . $row_p['p_name'] . '</td>;
-     <td>' . $row_e['id'] . '</td>;
+     <td>' . $row_p['id_projects'] . '</td>;
      <td>
-     <form class="actions" action="" method="POST">
-        <input type="hidden" name="id" value="' . $row_p['id_projects'] . '">
-        <button type="submit" name="delete" value="' . $row_p['id_projects'] . '">Delete project</button>
-        <button type="submit" name="update" value="">Edit project name</button>
-     </form> 
+     ' . '<a href="?action=delete&id_projects=' . $row_p['id_projects'] . '">
+     <button onclick="return confirm(\'Delete?\')" >Delete project</button></a>' . ' 
      </td>;
      </tr>');
   $c++;
@@ -75,10 +74,24 @@ if(isset($_POST['create_proj'])){
     // $l_name = $_POST['l_name'];
     $stmt->execute();
     $stmt->close();
-    header('Location: '.$_SERVER['PHP_SELF']);
+    header('Location: '.$_SERVER['REQUEST_URI']);
     die;
 }
 
+ //Delete project logic
+
+ 
+ if (isset($_GET['action']) and $_GET['action'] === 'delete') {
+     $sql_p = 'DELETE FROM projects WHERE id_projects = ?';
+     $stmt = $conn->prepare($sql_p);
+     $stmt->bind_param("i", $_GET['id_projects']);
+     $id_projects = $_POST['id_projects'];
+     $_POST['id_projects'] = $row_p['id_projects'];
+     $stmt->execute();
+     $stmt->close();
+     header('Location: '.$_SERVER['REQUEST_URI']);
+     die;
+   }
 mysqli_close($conn_p);
 
 ?>
