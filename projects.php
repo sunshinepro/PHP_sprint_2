@@ -26,18 +26,14 @@ $conn_p = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn_p) {
     die("Connection failed: " . mysqli_connect_error());
 }
-else echo "Connected successfully";
+// else echo "Connected successfully";
 
 
 $sql_p = "SELECT projects.id_projects, projects.p_name, emploees.f_name, emploees.l_name FROM projects
 LEFT JOIN emploees_projects ON projects.id_projects = emploees_projects.id_projects
 LEFT JOIN emploees ON emploees.id = emploees_projects.id_emploees";
-var_dump('$sql_p:' . $sql_p);
-
 
 $result_p = mysqli_query($conn_p, $sql_p);
-
-// var_dump( '$result_p:' . $result_p);
 
 print "<table >
 
@@ -60,7 +56,7 @@ while($row_p = mysqli_fetch_array($result_p))
      ' . '<a href="?action=delete&id_projects=' . $row_p['id_projects'] . '">
      <button onclick="return confirm(\'Delete?\')" >Delete project</button></a>' 
      . '<a href="?action=edit_e&id=' . $row_e['id'] . '">
-     <button>Edit employee</button></a>' . 
+     <button>Edit project</button></a>' . 
      '</td></tr>');
     
   $c++;
@@ -80,7 +76,7 @@ if(isset($_GET['create_proj'])){
     $p_name = $_GET['p_name'];
     $stmt->execute();
     $stmt->close();
-    header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
+    // header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
     }
 }
 
@@ -93,9 +89,11 @@ if(isset($_GET['create_proj'])){
      $stmt->bind_param("i", $_GET['id_projects']);
      $stmt->execute();
      $stmt->close();
-     header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
+    //  header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
      die;
    }
+
+
 mysqli_close($conn_p);
 
 ?>

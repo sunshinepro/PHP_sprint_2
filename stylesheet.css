@@ -1,3 +1,4 @@
+
 header {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color:black;
@@ -29,6 +30,8 @@ tr:nth-child(odd) {
   }
 button {
   float: left;
-  color:rgb(231, 28, 28);
   background-color: linen; 
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  border-collapse: collapse;
+  margin-left: 15 px;
 }
