@@ -31,7 +31,11 @@ else print "Connected successfully";
 
 //create table with Emploees data
 
-$sql_e = "SELECT id, f_name, l_name FROM emploees";
+$sql_e = "SELECT emploees.id, emploees.f_name, emploees.l_name, projects.p_name FROM emploees 
+LEFT JOIN emploees_projects ON emploees.id = emploees_projects.id_emploees
+LEFT JOIN projects ON projects.id_projects = emploees_projects.id_projects";
+
+
 var_dump('$sql_e:' . $sql_e);
 
 $result_e = mysqli_query($conn, $sql_e);
@@ -53,7 +57,7 @@ while($row_e = mysqli_fetch_array($result_e))
 '<tr><td>' . $counter . '</td>
      <td>' . $row_e['f_name'] . '</td>
      <td>' . $row_e['l_name'] . '</td>
-     <td>' . $row_e['id'] . '</td>             
+     <td>' . $row_e['p_name'] . '</td>             
      <td>' 
      . '<a href="?action=delete&id=' . $row_e['id'] . '">
      <button onclick="return confirm(\'Delete?\')" >Delete emploee</button></a>' 
@@ -78,7 +82,7 @@ if(isset($_GET['create_empl'])){
         $l_name = $_GET['l_name'];
         $stmt->execute();
         $stmt->close();
-        header('Location: '.$_SERVER['REQUEST_URI']);
+        header('Location: '. $_SERVER['REQUEST_URI']);
          die;
     }
 }
@@ -89,7 +93,7 @@ if (isset($_GET['action']) and $_GET['action'] === 'delete') {
     $stmt->bind_param("i", $_GET['id']);
     $stmt->execute();
     $stmt->close();
-    header('Location: '.$_SERVER['REQUEST_URI']);
+    header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
     die;
 }
 

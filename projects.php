@@ -29,7 +29,9 @@ if (!$conn_p) {
 else echo "Connected successfully";
 
 
-$sql_p = "SELECT id_projects, p_name FROM projects";
+$sql_p = "SELECT projects.id_projects, projects.p_name, emploees.f_name, emploees.l_name FROM projects
+LEFT JOIN emploees_projects ON projects.id_projects = emploees_projects.id_projects
+LEFT JOIN emploees ON emploees.id = emploees_projects.id_emploees";
 var_dump('$sql_p:' . $sql_p);
 
 
@@ -53,7 +55,7 @@ while($row_p = mysqli_fetch_array($result_p))
     print( '<tr>
      <td>' . $c .'</td>
      <td>' . $row_p['p_name'] . '</td>;
-     <td>' . $row_p['id_projects'] . '</td>;
+     <td>' . $row_p['f_name'] . ' ' . $row_p['l_name'] .'</td>;
      <td>
      ' . '<a href="?action=delete&id_projects=' . $row_p['id_projects'] . '">
      <button onclick="return confirm(\'Delete?\')" >Delete project</button></a>' . ' 
@@ -67,15 +69,17 @@ echo "</table>";
 
 //Create project
 
-if(isset($_POST['create_proj'])){
+if(isset($_GET['create_proj'])){
+    if ( $_GET['create_proj'] == '') {
+        print 'Name can not be empty. Please enter valid project name!';
+    } else {
     $stmt = $conn_p->prepare("INSERT INTO projects (p_name) VALUES (?)");
     $stmt->bind_param("s", $p_name);
-    $p_name = $_POST['p_name'];
-    // $l_name = $_POST['l_name'];
+    $p_name = $_GET['p_name'];
     $stmt->execute();
     $stmt->close();
-    header('Location: '.$_SERVER['REQUEST_URI']);
-    die;
+    header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
+    }
 }
 
  //Delete project logic
@@ -85,11 +89,9 @@ if(isset($_POST['create_proj'])){
      $sql_p = 'DELETE FROM projects WHERE id_projects = ?';
      $stmt = $conn->prepare($sql_p);
      $stmt->bind_param("i", $_GET['id_projects']);
-     $id_projects = $_POST['id_projects'];
-     $_POST['id_projects'] = $row_p['id_projects'];
      $stmt->execute();
      $stmt->close();
-     header('Location: '.$_SERVER['REQUEST_URI']);
+     header('Location: '. strtok($_SERVER['REQUEST_URI'], '?'));
      die;
    }
 mysqli_close($conn_p);
@@ -104,5 +106,4 @@ mysqli_close($conn_p);
 <body>
 </html>
 
-<!-- ADD - kodel neveikia cia? -->
 
