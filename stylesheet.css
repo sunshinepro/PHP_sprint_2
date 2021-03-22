@@ -1,7 +1,8 @@
 header {
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
   color:black;
-  font-size: 18px;
+  background-color: linen;
+  font-size: 20px;
 }
 
 table {
@@ -27,5 +28,7 @@ tr:nth-child(odd) {
     background-color: #fff;
   }
 button {
-  float: left ;
+  float: left;
+  color:rgb(231, 28, 28);
+  background-color: linen; 
 }

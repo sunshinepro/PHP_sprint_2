@@ -6,11 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="stylesheet.css"> 
-    <title>Emploees - Projects binder</title>
+    <title>Employees - Projects binder</title>
 </head>
 <body>
     <header>
-    <a href="./index.php">Emploees</a>
+    <a href="./index.php">Employees</a>
     <a href="./projects.php">Projects</a>
     </header>
 <?php
@@ -44,7 +44,7 @@ print "<table >
 <tr>
     <th>Row Number</th>
     <th>Project name</th>
-    <th>Emploee</th>
+    <th>Employee</th>
     <th>Action</th>
 </tr>";
 
@@ -58,9 +58,11 @@ while($row_p = mysqli_fetch_array($result_p))
      <td>' . $row_p['f_name'] . ' ' . $row_p['l_name'] .'</td>;
      <td>
      ' . '<a href="?action=delete&id_projects=' . $row_p['id_projects'] . '">
-     <button onclick="return confirm(\'Delete?\')" >Delete project</button></a>' . ' 
-     </td>;
-     </tr>');
+     <button onclick="return confirm(\'Delete?\')" >Delete project</button></a>' 
+     . '<a href="?action=edit_e&id=' . $row_e['id'] . '">
+     <button>Edit employee</button></a>' . 
+     '</td></tr>');
+    
   $c++;
 
 }
@@ -98,7 +100,7 @@ mysqli_close($conn_p);
 
 ?>
 
-<form action="" method="POST">
+<form action="" method="GET">
         <label for="p_name">Project name: </label><br>
         <input type="text" id="p_name" name="p_name"><br>
         <input type="submit" name="create_proj" value="Create new project">
